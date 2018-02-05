@@ -1,5 +1,3 @@
-
-
 module.exports.wordCount= function(body){
 
 var items=[];
@@ -37,13 +35,22 @@ items.push({"numberOfSentences":numberOfSentences,
 avWords = Math.floor(numberOfWords/arr.length);
 items.push({"avWords":avWords});
 
-arr = body.split("");
-arr=arr.filter(word => word!=" " && word!="." && word!="");
-arr = arr.filter(word=> word=='a' || word=='e' || word=='i' || word=='o' || word=='u' || word=='A' || word=='E' || word=='I' || word=='O' || word=='U');
-avSyllables = Math.floor(arr.length/numberOfWords);
-items.push({"avSyllables":avSyllables,
-			"syllableList":arr
-			});
+function new_count(word) {
+  word = word.toLowerCase();                                     
+  if(word.length <= 3) { return 1; }                             
+    word = word.replace(/(?:[^laeiouy]es|ed|[^laeiouy]e)$/, '');   
+    word = word.replace(/^y/, '');                                 
+    return word.match(/[aeiouy]{1,2}/g).length;                    
+}
+
+var res=0;
+for(var i=0;i<numberOfWords;i++){
+	res=res+new_count(items[2].wordList[i]);
+}
+avSyllables = Math.ceil(res/numberOfWords);
+console.log(avSyllables);
+items.push({avSyllables:avSyllables});
+
 return items;
 
 }
