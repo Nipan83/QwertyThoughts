@@ -14,7 +14,7 @@ while ((match = re.exec(string)) != null){
 
 	}
 	
-	if(s=="img"){s="";}
+	if(s=="img" || s=="br"){s="";}
 	arr.push(match[0]+s+">");
   
 }
